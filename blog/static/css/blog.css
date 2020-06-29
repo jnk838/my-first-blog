@@ -10,6 +10,12 @@
     text-decoration: none;
 }
 
+.post-form {
+  margin: 0;
+  font: inherit;
+  color: black;
+}
+
 body::before {
     content: "";
     position: fixed;
@@ -121,6 +127,16 @@ t2 {
 	/*font-family: "Poppins", sans-serif, monospace;*/
 	font-size: 24px;
 }
+
+t3 {
+	position: relative;
+	float: left;
+	color: #18d26e;
+	font-family: 'Inconsolata', Consolas, monospace;
+	/*font-family: "Poppins", sans-serif, monospace;*/
+	font-size: 15px;
+}
+
 t2 span{
 	position: absolute;
 	top: 0;
