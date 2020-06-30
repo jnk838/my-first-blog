@@ -4,6 +4,15 @@ from django.shortcuts import render, get_object_or_404
 from .models import Post
 from .forms import PostForm
 from django.shortcuts import redirect
+from django.http import HttpResponse
+
+# def home_page(request):
+    # if request.method == 'POST':
+    #     Item.objects.create(text=request.POST['item_text'])
+    #     return redirect('/')
+
+    # items = Item.objects.all()
+    # return render(request, 'home.html', {'items': items})
 
 def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
