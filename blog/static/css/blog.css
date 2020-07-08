@@ -16,6 +16,10 @@
   color: black;
 }
 
+cover {
+	background: url('/static/assets/img/Jamie.jpg');
+}
+
 body::before {
     content: "";
     position: fixed;
@@ -116,7 +120,7 @@ body {
     color: #18d26e;
     font-family: 'Inconsolata', Consolas, monospace;
     font-family: "Poppins", sans-serif, monospace;
-    font-size: 50px;
+    font-size: 60px;
   }
 
 t2 {
