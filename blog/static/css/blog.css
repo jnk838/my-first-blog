@@ -16,13 +16,9 @@
   color: black;
 }
 
-cover {
-	background: url('/static/assets/img/Jamie.jpg');
-}
-
 body::before {
     content: "";
-    position: fixed;
+    /* position: fixed; */
     background: #000000 url(../assets/img/Jamie.jpg) bottom right no-repeat;
     background-position: 600px 50px;
     background-size:55%;
@@ -69,7 +65,7 @@ sm {
     color: #ffffff;
     float: right;
     font-size: 26pt;
-    margin-right: 1px;
+    margin-right: 12px;
 }
 
 .post {
@@ -125,7 +121,7 @@ body {
 
 t2 {
 	position: relative;
-	float: left;
+  float: left;
 	color: #18d26e;
 	font-family: 'Inconsolata', Consolas, monospace;
 	font-family: "Poppins", sans-serif, monospace;
@@ -190,10 +186,6 @@ body {
 body::before {
   content: "";
   position: fixed;
-  /*background: #000000 url("../img/JK.jpg") no-repeat;*/
-  /*background-position: 220px -100px;*/
-  /*background-size: 116%;*/
-  background: #000000 url("../img/Jamie.jpg") bottom right no-repeat;
   background-position: 600px 50px;
   background-size:55%;
   left: 0;
@@ -317,7 +309,7 @@ h1, h2, h3, h4, h5, h6 {
 --------------------------------------------------------------*/
 /* Desktop Navigation */
 .nav-menu {
-  margin-top: 35px;
+  margin-top: 120px;
 }
 
 .nav-menu ul {
@@ -448,7 +440,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Header Top */
 #header.header-top {
-  height: 80px;
+  height: 120px;
   position: fixed;
   left: 0;
   top: 0;
@@ -459,9 +451,6 @@ h1, h2, h3, h4, h5, h6 {
 #header.header-top .social-links, #header.header-top h2 {
   display: none;
 }
-#header.header-top .social-links, #header.header-top jake {
-  display: none;
-}
 
 #header.header-top h1 {
   margin-right: auto;
@@ -470,7 +459,7 @@ h1, h2, h3, h4, h5, h6 {
 
 #header.header-top t2 {
   opacity: 55%;
-  margin: 10;
+  margin: 20;
 }
 
 #header.header-top .container {
@@ -696,7 +685,7 @@ section .container {
 --------------------------------------------------------------*/
 .testimonials .testimonial-item {
   box-sizing: content-box;
-  min-height: 320px;
+  min-height: 1000;
 }
 
 .testimonials .testimonial-item .testimonial-img {
