@@ -15,6 +15,9 @@ def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'blog/post_detail.html', {'post': post})
 
+def cv(request):
+    return render(request, 'blog/cv.html')
+
 def post_new(request):
     if request.method == "POST":
         form = PostForm(request.POST)
@@ -41,7 +44,3 @@ def post_edit(request, pk):
     else:
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form': form})
-
-
-# class CVPageView(TemplateView):
-#     template_name = 'cv.html'
