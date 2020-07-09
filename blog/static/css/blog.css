@@ -117,6 +117,7 @@ body {
     font-family: 'Inconsolata', Consolas, monospace;
     font-family: "Poppins", sans-serif, monospace;
     font-size: 60px;
+    margin-right: 8pt;
   }
 
 t2 {
@@ -125,7 +126,9 @@ t2 {
 	color: #18d26e;
 	font-family: 'Inconsolata', Consolas, monospace;
 	font-family: "Poppins", sans-serif, monospace;
-	font-size: 24px;
+  font-size: 24px;
+  margin-top: 28pt;
+  margin-right: 8pt;
 }
 
 t3 {
@@ -440,12 +443,13 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Header Top */
 #header.header-top {
-  height: 120px;
+  height: 120;
   position: fixed;
   left: 0;
   top: 0;
   right: 0;
   background: rgba(0, 0, 0, 0.9);
+  overflow: hidden;
 }
 
 #header.header-top .social-links, #header.header-top h2 {
