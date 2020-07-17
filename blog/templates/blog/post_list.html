@@ -1,23 +1,23 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-
-<html>
-    <body>
-        <title>Posts</title>
-        <div class = "post containter">
-        <section id="posts" class="posts"></section>
-         {% for post in posts %}
-        <div class="post">
-            <div class="date">
-                {{ post.published_date }}
-            </div>
-            <h1><a href="{% url 'post_detail' pk=post.pk %}#posts">{{ post.title }}</a></h1>
-            <p>{{ post.text|linebreaksbr }}</p>
-        </div>
-    {% endfor %}
+  
+    <div class="section-title">
+        <h2>Posts</h2>
+        <p>See My Posts</p>
     </div>
-    </body>
-</html>
-   
+
+    <div class = "post containter">
+    <section id="posts" class="posts"></section>
+        {% for post in posts %}
+    <div class="post">
+        <div class="date">
+            {{ post.published_date }}
+        </div>
+        <h1><a href="{% url 'post_detail' pk=post.pk %}#posts">{{ post.title }}</a></h1>
+        <p>{{ post.text|linebreaksbr }}</p>
+    </div>
+
+{% endfor %}
+
 {% endblock %}

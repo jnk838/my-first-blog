@@ -1,8 +1,10 @@
 from django.template.loader import render_to_string
 from django.urls import resolve
 from django.test import TestCase
+from django.contrib.auth.models import User
+from blog.models import CV
 from blog.models import Post
-from blog.views import home_page  
+from django.test.client import Client
 
 class HomePageTest(TestCase):
 
@@ -10,7 +12,6 @@ class HomePageTest(TestCase):
         response = self.client.get('/')  
 
         html = response.content.decode('utf8')  
-        # self.assertTrue(html.startswith('<html>'))
         self.assertIn('<title>Jamie King Blog</title>', html)
         self.assertTrue(html.strip().endswith('</html>'))
 
@@ -20,48 +21,144 @@ class HomePageTest(TestCase):
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'blog/base.html')
 
-    def test_can_save_a_POST_request(self):
-        self.client.post('/', data={'item_text': 'A new list item'})
+    def test_uses_cv_template(self):
+        response = self.client.get('/cv/')
+        self.assertTemplateUsed(response, 'blog/cv.html')
 
-        self.assertEqual(Item.objects.count(), 1)
-        new_item = Item.objects.first()
+    def test_uses_cv_new_template(self):
+        response = self.client.get('/cv/new/')
+        self.assertTemplateUsed(response, 'blog/cv_edit.html')
+
+    def test_only_saves_items_when_necessary_Post(self):
+        self.client.get('/')
+        self.assertEqual(Post.objects.count(), 0)
+
+    def test_only_saves_items_when_necessary_CV(self):
+            self.client.get('/')
+            self.assertEqual(CV.objects.count(), 0)
+
+    def test_can_save_a_POST_request_cv_edit(self):
+        my_admin = User.objects.create_superuser('myuser', 'myemail@test.com', 'mypassword')
+        c = Client()
+        c.login(username=my_admin.username, password='mypassword')
+
+        first_item = CV()
+        first_item.title = 'Title 1'
+        first_item.text = 'A new list item'
+        first_item.author = my_admin
+        first_item.save()
+
+        self.assertEqual(CV.objects.count(), 1)
+        new_item = CV.objects.first()
         self.assertEqual(new_item.text, 'A new list item')
 
-    # def test_redirects_after_POST(self):
-    #     response = self.client.post('/', data={'item_text': 'A new list item'})
-    #     self.assertEqual(response.status_code, 302)
-    #     self.assertEqual(response['location'], '/')
+    def test_can_save_a_POST_request_cv_new(self):
+        my_admin = User.objects.create_superuser('myuser', 'myemail@test.com', 'mypassword')
+        c = Client()
+        c.login(username=my_admin.username, password='mypassword')
 
-    # def test_only_saves_items_when_necessary(self):
-    #         self.client.get('/')
-    #         self.assertEqual(Item.objects.count(), 0)
+        first_item = CV()
+        first_item.title = 'Title 1'
+        first_item.text = 'The first (ever) list item'
+        first_item.location = 'Blah'
+        first_item.date = '202020'
+        first_item.l1 = '1'
+        first_item.l2 = '2'
+        first_item.l3 = '3'
+        first_item.author = my_admin
+        first_item.save()
 
-    # def test_displays_all_list_items(self):
-    #     Item.objects.create(text='itemey 1')
-    #     Item.objects.create(text='itemey 2')
+        self.assertEqual(CV.objects.count(), 1)
+        new_item = CV.objects.first()
+        self.assertEqual(new_item.text, 'The first (ever) list item')
 
-    #     response = self.client.get('/')
+class ItemModelTest(TestCase):
 
-    #     self.assertIn('itemey 1', response.content.decode())
-    #     self.assertIn('itemey 2', response.content.decode())
+    def test_saving_and_retrieving_items(self):
 
+        my_admin = User.objects.create_superuser('myuser','myemail@test.com','mypassword')
+        c = Client()
+        c.login(username=my_admin.username, password='mypassword')
 
+        first_item = Post()
+        first_item.title = 'Title 1'
+        first_item.text = 'The first (ever) list item'
+        first_item.author = my_admin
+        first_item.save()
 
-# class ItemModelTest(TestCase):
+        second_item = Post()
+        second_item.title = 'Title 2'
+        second_item.text = 'Item the second'
+        second_item.author = my_admin
+        second_item.save()
 
-#     def test_saving_and_retrieving_items(self):
-#         first_item = Post()
-#         first_item.text = 'The first (ever) list item'
-#         first_item.save()
+        saved_items = Post.objects.all()
+        self.assertEqual(saved_items.count(), 2)
 
-#         second_item = Post()
-#         second_item.text = 'Item the second'
-#         second_item.save()
+        first_saved_item = saved_items[0]
+        second_saved_item = saved_items[1]
+        self.assertEqual(first_saved_item.text, 'The first (ever) list item')
+        self.assertEqual(second_saved_item.text, 'Item the second')
 
-#         saved_items = Post.objects.all()
-#         self.assertEqual(saved_items.count(), 2)
+    def test_saving_and_retrieving_items_CV(self):
 
-#         first_saved_item = saved_items[0]
-#         second_saved_item = saved_items[1]
-#         self.assertEqual(first_saved_item.text, 'The first (ever) list item')
-#         self.assertEqual(second_saved_item.text, 'Item the second')
+        my_admin = User.objects.create_superuser('myuser','myemail@test.com','mypassword')
+        c = Client()
+        c.login(username=my_admin.username, password='mypassword')
+
+        first_item = CV()
+        first_item.title = 'Title 1'
+        first_item.text = 'The first (ever) list item'
+        first_item.author = my_admin
+        first_item.save()
+
+        second_item = CV()
+        second_item.title = 'Title 2'
+        second_item.text = 'Item the second'
+        second_item.author = my_admin
+        second_item.save()
+
+        saved_items = CV.objects.all()
+        self.assertEqual(saved_items.count(), 2)
+
+        first_saved_item = saved_items[0]
+        second_saved_item = saved_items[1]
+        self.assertEqual(first_saved_item.text, 'The first (ever) list item')
+        self.assertEqual(second_saved_item.text, 'Item the second')
+
+    
+    def test_saving_and_retrieving_items_new_CV(self):
+
+        my_admin = User.objects.create_superuser('myuser','myemail@test.com','mypassword')
+        c = Client()
+        c.login(username=my_admin.username, password='mypassword')
+
+        first_item = CV()
+        first_item.title = 'Title 1'
+        first_item.text = 'The first (ever) list item'
+        first_item.location = 'Blah'
+        first_item.date = '202020'
+        first_item.l1 = '1'
+        first_item.l2 = '2'
+        first_item.l3 = '3'
+        first_item.author = my_admin
+        first_item.save()
+
+        second_item = CV()
+        second_item.title = 'Title 2'
+        second_item.text = 'Item the second'
+        second_item.location = 'Blah'
+        second_item.date = '202020'
+        second_item.l1 = '1'
+        second_item.l2 = '2'
+        second_item.l3 = '3'
+        second_item.author = my_admin
+        second_item.save()
+
+        saved_items = CV.objects.all()
+        self.assertEqual(saved_items.count(), 2)
+
+        first_saved_item = saved_items[0]
+        second_saved_item = saved_items[1]
+        self.assertEqual(first_saved_item.text, 'The first (ever) list item')
+        self.assertEqual(second_saved_item.text, 'Item the second')
